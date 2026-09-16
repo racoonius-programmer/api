@@ -8,3 +8,7 @@ spring:
                     issuer-uri: ${ENTRA_ISSUER_URI}
                     audiences:
                         - ${ENTRA_API_CLIENT_ID}
+
+microservices:
+    clientes:
+        base-url: http://localhost:8083
