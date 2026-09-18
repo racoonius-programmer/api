@@ -1,2 +1,7 @@
+powershell
 $env:ENTRA_ISSUER_URI="https://login.microsoftonline.com/bfad838f-a054-4b3f-ab2b-3091f04afe19/v2.0"
 $env:ENTRA_API_CLIENT_ID="13e87d42-2bfe-4e51-9e49-0fceb601bdd7"
+
+nobara
+export ENTRA_ISSUER_URI="https://login.microsoftonline.com/bfad838f-a054-4b3f-ab2b-3091f04afe19/v2.0"
+export ENTRA_API_CLIENT_ID="13e87d42-2bfe-4e51-9e49-0fceb601bdd7"
