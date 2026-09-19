@@ -1,6 +1,7 @@
 package cl.duoc.api;
 
 import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,14 +22,13 @@ public class SecurityConfig {
                                 .cors(Customizer.withDefaults())
                                 .sessionManagement(s -> s.sessionCreationPolicy(
                                                 SessionCreationPolicy.STATELESS))
-                                .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers(HttpMethod.GET, "/api/data")
-                                                .hasAuthority("SCOPE_access_as_user")
-                                                .requestMatchers(HttpMethod.GET, "/api/perfil")
-                                                .hasAuthority("SCOPE_access_as_user")
-                                                .requestMatchers(HttpMethod.GET, "/api/productos")
-                                                .hasAuthority("SCOPE_access_as_user")
-                                                .anyRequest().denyAll())
+.authorizeHttpRequests(auth -> auth
+    // Agrupamos todas las rutas en una sola regla más limpia
+    .requestMatchers(HttpMethod.GET, "/api/data", "/api/perfil", "/api/productos", "/api/productos/**").hasAuthority("SCOPE_access_as_user")
+    // PERMITIMOS LA RUTA DE ERROR PARA VER QUÉ ESTÁ FALLANDO
+    .requestMatchers("/error").permitAll()
+    .anyRequest().denyAll()
+)
                                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
                                 .build();
         }
@@ -39,7 +39,7 @@ public class SecurityConfig {
                 configuration.setAllowedOrigins(
                                 List.of("http://localhost:5173"));
                 configuration.setAllowedMethods(
-                                List.of("GET", "OPTIONS"));
+                                List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 configuration.setAllowedHeaders(
                                 List.of("Authorization", "Content-Type"));
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
