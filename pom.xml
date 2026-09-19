@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cl.duoc</groupId>
-	<artifactId>api</artifactId>
+	<artifactId>bff</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>bff</name>
+	<description>BFF para autenticación con Entra ID y consulta de perfil de usuario</description>
 	<url/>
 	<licenses>
 		<license/>
