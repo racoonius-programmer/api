@@ -1,0 +1,44 @@
+package cl.duoc.api.repository;
+
+import cl.duoc.api.dto.UsuarioResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClient;
+
+@Repository
+public class UsuarioRepository {
+    private final RestClient restClient;
+
+    public UsuarioRepository(
+            RestClient.Builder restClientBuilder,
+            @Value("${microservices.usuarios.base-url}") String baseUrl) {
+        this.restClient = restClientBuilder
+                .baseUrl(baseUrl)
+                .build();
+    }
+
+    public UsuarioResponse buscarPorOid(String oid, String email, String rol) {
+        try {
+            return restClient
+                    .get()
+                    .uri("/api/usuarios/{oid}", oid)
+                    .retrieve()
+                    .body(UsuarioResponse.class);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                var usuario = new UsuarioResponse(oid, email.split("@")[0], email, rol);
+                return restClient
+                        .post()
+                        .uri("/api/usuarios")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(usuario)
+                        .retrieve()
+                        .body(UsuarioResponse.class);
+            }
+            throw e;
+        }
+    }
+}
