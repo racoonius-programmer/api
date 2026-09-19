@@ -26,6 +26,8 @@ public class SecurityConfig {
                                                 .hasAuthority("SCOPE_access_as_user")
                                                 .requestMatchers(HttpMethod.GET, "/api/perfil")
                                                 .hasAuthority("SCOPE_access_as_user")
+                                                .requestMatchers(HttpMethod.GET, "/api/productos")
+                                                .hasAuthority("SCOPE_access_as_user")
                                                 .anyRequest().denyAll())
                                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
                                 .build();

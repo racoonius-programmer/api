@@ -1,6 +1,8 @@
 package cl.duoc.api.controller;
 
 import cl.duoc.api.dto.UsuarioResponse;
+import cl.duoc.api.dto.ProductResponse;
+import cl.duoc.api.service.ProductService;
 import cl.duoc.api.service.UsuarioService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class DataController {
 
     private final UsuarioService usuarioService;
+    private final ProductService productService;
 
-    public DataController(UsuarioService usuarioService) {
+    public DataController(UsuarioService usuarioService, ProductService productService) {
         this.usuarioService = usuarioService;
+        this.productService = productService;
     }
 
     @GetMapping("/perfil")
@@ -25,5 +29,10 @@ public class DataController {
         String nombre = jwt.getClaimAsString("name");
 
         return usuarioService.obtenerPerfil(oid, email, nombre);
+    }
+
+    @GetMapping("/productos")
+    public java.util.List<ProductResponse> productos() {
+        return productService.obtenerProductos();
     }
 }

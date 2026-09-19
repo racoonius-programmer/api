@@ -12,3 +12,5 @@ spring:
 microservices:
     usuarios:
         base-url: http://localhost:8083
+    productos:
+        base-url: http://localhost:8084
