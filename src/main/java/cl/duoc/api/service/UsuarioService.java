@@ -12,7 +12,7 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public UsuarioResponse obtenerPerfil(String oid, String email, String rol) {
-        return usuarioRepository.buscarPorOid(oid, email, rol);
+    public UsuarioResponse obtenerPerfil(String oid, String email, String nombre) {
+        return usuarioRepository.buscarPorOid(oid, email, nombre);
     }
 }

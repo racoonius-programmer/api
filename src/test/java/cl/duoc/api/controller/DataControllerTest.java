@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import cl.duoc.api.dto.ProductResponse;
 import cl.duoc.api.dto.UsuarioResponse;
+import cl.duoc.api.service.PedidoService;
 import cl.duoc.api.service.ProductService;
 import cl.duoc.api.service.UsuarioService;
 import java.util.List;
@@ -19,6 +20,7 @@ class DataControllerTest {
     void perfilDebeDelegarAlServicioConOidEmailYNombre() {
         UsuarioService usuarioService = mock(UsuarioService.class);
         ProductService productService = mock(ProductService.class);
+        PedidoService pedidoService = mock(PedidoService.class); // <-- Creamos el mock
         Jwt jwt = mock(Jwt.class);
 
         when(jwt.getClaimAsString("oid")).thenReturn("oid-123");
@@ -28,7 +30,8 @@ class DataControllerTest {
         UsuarioResponse esperado = new UsuarioResponse("oid-123", "Ana", "ana@duoc.cl", "user");
         when(usuarioService.obtenerPerfil("oid-123", "ana@duoc.cl", "Ana")).thenReturn(esperado);
 
-        DataController controller = new DataController(usuarioService, productService);
+        // Pasamos los 3 servicios al constructor
+        DataController controller = new DataController(usuarioService, productService, pedidoService);
         UsuarioResponse resultado = controller.perfil(jwt);
 
         assertEquals(esperado, resultado);
@@ -39,10 +42,13 @@ class DataControllerTest {
     void productosDebeDelegarAlServicio() {
         UsuarioService usuarioService = mock(UsuarioService.class);
         ProductService productService = mock(ProductService.class);
+        PedidoService pedidoService = mock(PedidoService.class); // <-- Creamos el mock
+        
         List<ProductResponse> esperados = List.of(new ProductResponse("Producto", "Descripcion", 1000));
         when(productService.obtenerProductos()).thenReturn(esperados);
 
-        DataController controller = new DataController(usuarioService, productService);
+        // Pasamos los 3 servicios al constructor
+        DataController controller = new DataController(usuarioService, productService, pedidoService);
 
         assertEquals(esperados, controller.productos());
         verify(productService).obtenerProductos();

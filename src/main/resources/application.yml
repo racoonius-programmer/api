@@ -5,12 +5,14 @@ spring:
         oauth2:
             resourceserver:
                 jwt:
-                    issuer-uri: ${ENTRA_ISSUER_URI:https://login.microsoftonline.com/bfad838f-a054-4b3f-ab2b-3091f04afe19/v2.0}
+                    issuer-uri: ${ENTRA_ISSUER_URI:https://login.microsoftonline.com/8a91e271-d2b1-4665-9ca3-cf16ab3493bb/v2.0}
                     audiences:
-                        - ${ENTRA_API_CLIENT_ID:00000000-0000-0000-0000-000000000000}
+                        - ${ENTRA_API_CLIENT_ID:c1918f98-96be-4384-b994-b7e7e7553df0}
 
 microservices:
     usuarios:
-        base-url: http://localhost:8083
+        base-url: ${MS_USUARIOS_URL:http://localhost:8083}
     productos:
-        base-url: http://localhost:8084
+        base-url: ${MS_PRODUCTOS_URL:http://localhost:8084}
+    pedidos:
+        base-url: ${MS_PEDIDOS_URL:http://localhost:8085}
