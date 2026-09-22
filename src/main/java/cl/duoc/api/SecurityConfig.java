@@ -22,13 +22,12 @@ public class SecurityConfig {
                                 .cors(Customizer.withDefaults())
                                 .sessionManagement(s -> s.sessionCreationPolicy(
                                                 SessionCreationPolicy.STATELESS))
-.authorizeHttpRequests(auth -> auth
-    // Agrupamos todas las rutas en una sola regla más limpia
-    .requestMatchers(HttpMethod.GET, "/api/data", "/api/perfil", "/api/productos", "/api/productos/**").hasAuthority("SCOPE_access_as_user")
-    // PERMITIMOS LA RUTA DE ERROR PARA VER QUÉ ESTÁ FALLANDO
-    .requestMatchers("/error").permitAll()
-    .anyRequest().denyAll()
-)
+                                .authorizeHttpRequests(auth -> auth
+                                        .requestMatchers(HttpMethod.GET, "/api/data", "/api/perfil", "/api/productos", "/api/productos/**", "/api/pedidos", "/api/pedidos/**").hasAuthority("SCOPE_access_as_user")
+                                        .requestMatchers(HttpMethod.POST, "/api/pedidos").hasAuthority("SCOPE_access_as_user")
+                                        .requestMatchers("/error").permitAll()
+                                        .anyRequest().denyAll()
+                                )
                                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
                                 .build();
         }
